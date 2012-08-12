@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" />
+<title>PaletteVisualizer</title>
+<style type="text/css">
+body { font:0.85em/1.4em Arial, sans-serif; margin:20px; }
+h1 { font-size: 1.5em }
+.col { float:left; width:325px; margin:20px 10px 20px 0; overflow:auto; }
+.step { clear:both; }
+.text { padding:8px 0 0; } 
+a.tip { text-decoration:none; padding:1px; font-size:90% }
+.subcol { float:left; margin:0; width:70px; }
+.subcol input, .subcol select { margin:0 0 10px 0 }
+.colorValues { width:315px; height:100px; margin-top:0px; }
+.color { float:left; text-align:center; margin:0 8px 0 0; }
+.smalltext { font-size:11px; }
+.color .swatch { width:90px;height:40px; display:block; }
+select,input { display:inline; }
+#palette { clear:both; margin:20px 0; overflow:auto; }
+.section { clear:both; margin:20px 0; border-top:1px solid #ccc; padding:10px 0; overflow:auto; }
+</style>
+<script type="text/javascript" src="js/colorConversion.js"></script>
+<script type="text/javascript">
+
+function displayPalette(){
+	
+	var colorsOut = new Array(); // for all color objects
+	var colors = new Array();  // for colors returned from the user's string
+	var colorPaletteOut = '';
+	var hexColorStringList = '';
+	var rgbColorStringList = '';
+	var hsvColorStringList = '';
+	
+	// get colors
+	var colorValues = document.forms["colorForm"]["orgColorValues"].value;
+	var colorMode = document.forms["colorForm"]["colorMode"].value;
+	var colorSort = document.forms["colorForm"]["colorSort"].value;
+	
+	// match all hexidecimal values
+	var colors = colorValues.match(/[a-fA-F0-9]{6,6}/g);
+		
+	// if there are colors
+	if (colors.length > 0){
+		
+		// store colors
+		for(var i=0; i < colors.length; i++){
+			
+			// an object for each color 
+			var c = { 
+				hex : "#"+ colors[i],
+				rgb : { 
+					rgb : "rgb(" + hex2rgb(colors[i]) + ")",
+					r : hexToR(colors[i]), 
+					g : hexToG(colors[i]), 
+					b : hexToB(colors[i]) 
+				}
+			};
+			c.hsv = rgb2hsv( c.rgb.r, c.rgb.g, c.rgb.b );
+			colorsOut[i] = c;
+		}
+		
+		// comparison functions for sorting palette
+		if (colorSort == 'h_asc'){ colorsOut.sort(function(a,b){ return a.hsv[0].h - b.hsv[0].h }); }
+		else if (colorSort == 'h_desc'){ colorsOut.reverse(colorsOut.sort(function(a,b){ return a.hsv[0].h - b.hsv[0].h })); }
+		else if (colorSort == 's_asc'){ colorsOut.sort(function(a,b){ return a.hsv[0].s - b.hsv[0].s }); }
+		else if (colorSort == 's_desc'){ colorsOut.reverse(colorsOut.sort(function(a,b){ return a.hsv[0].s - b.hsv[0].s })); }
+		else if (colorSort == 'v_asc'){	colorsOut.sort(function(a,b){ return a.hsv[0].v - b.hsv[0].v }); }
+		else if (colorSort == 'v_desc'){ colorsOut.reverse(colorsOut.sort(function(a,b){ return a.hsv[0].v - b.hsv[0].v })); }
+		
+		// show color object
+		//console.log(colorsOut);
+		
+		// write to html
+		for(c in colorsOut){
+			
+			// user's preference for color display
+			if (colorMode == 'hex'){
+				var colorString = colorsOut[c]['hex'];
+			} else if (colorMode == 'rgb'){
+				var colorString = colorsOut[c]['rgb']['rgb'];
+			}
+			
+			// store palette
+			colorPaletteOut += "<div class='color'>"
+				+ "<span class='swatch' style='background-color:"+ colorString +"'></span>"
+				+ "<span class='smalltext'>"+ colorString +"</span></div>";
+			
+			// store lists
+			hexColorStringList += colorsOut[c]['hex'] + ',';		
+			rgbColorStringList += colorsOut[c]['rgb']['rgb'] + ',';
+			hsvColorStringList += colorsOut[c].hsv[0].h + ',' + colorsOut[c].hsv[0].s + ',' + colorsOut[c].hsv[0].v + "\n";
+		}
+		document.getElementById('palette').innerHTML = colorPaletteOut;
+		document.getElementById('hexColorValues').innerHTML = hexColorStringList;
+		document.getElementById('rgbColorValues').innerHTML = rgbColorStringList;
+		document.getElementById('hsvColorValues').innerHTML = hsvColorStringList;
+	}
+}
+
+</script>
+<body onLoad="showPalette()">
+
+<h1>PaletteVisualizer</h1>
+<p>View and sort a list of hexidecimal colors as a palette. View the code <a href="https://github.com/omundy/PaletteVisualizer">here</a>.</p>
+
+
+
+
+<form name="colorForm">
+	
+	<div class="step">
+		<div class="col">
+
+		<textarea id="orgColorValues" class="colorValues">'fa7c00','f98c00','d08c00','be9646','a58b6a','818185','777777','fff0c1','768557','e2e900','1574e5','4c6b85','e1eaf2','974542','997749','fb9a00','fef59b','fef59b','5b9058','1574e5','4c6b85','e1eaf2','974542','eeeeee','fdce00','c5c5c5','ca9a5e','fef59b','fef59b','cccccc','dddddd','eeeeee','ffffff','5b9058','fff0c1','fa7c00','f98c00','d08c00','be9646','a58b6a'</textarea>
+		
+		</div>
+		<div class="col" style="width:500px;">
+			
+			Enter hexidecimal colors only. <a href="#" title="Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)" class="tip" onClick="alert('Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)')">[?]</a> <br>
+			
+			Sort colors by: <select name="colorSort" id="colorSort">
+					<option value="none">---</option>
+					<option value="h_asc">< hue</option>
+					<option value="h_desc">> hue</option>
+					<option value="s_asc">< saturation</option>
+					<option value="s_desc">> saturation</option>
+					<option value="v_asc">< value</option>
+					<option value="v_desc">> value</option>
+			</select><br>
+	
+	
+			Display palette colors as: <select name="colorMode" id="colorMode">
+					<option value="hex">HEX</option>
+					<option value="rgb">RGB</option>
+			</select><br>
+				
+			<input type="button" value="Display Palette" onClick="displayPalette()" />
+			
+		</div>
+	</div>
+	
+
+</form>
+
+<div class="section">
+	<div id="palette"></div>
+</div>
+
+
+<div class="section">
+	
+	<div class="col">(clean) Hexidecimal values<br>
+	<textarea id="hexColorValues" class="colorValues" style="height:300px;"></textarea></div>
+	
+	<div class="col">(clean) RGB values<br>
+	<textarea id="rgbColorValues" class="colorValues" style="height:300px;"></textarea></div>
+	
+	<div class="col">(clean) HSV values<br>
+	<textarea id="hsvColorValues" class="colorValues" style="height:300px;"></textarea></div>
+
+</div>
+
+
+<div class="section">Copyright (c) 2012 Owen Mundy owenmundy.com</div>
+
+<script type="text/javascript" src="../assets/js/stats.js"></script>
+<script type="text/javascript" src="http://www.statcounter.com/counter/counter_xhtml.js"></script>
+</body>
+</html>
