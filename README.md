@@ -4,7 +4,7 @@
 View, sort, and clean a list of hexidecimal colors as a palette.
 
 Live project
-http://omundy.github.io/PaletteVisualizer/
+https://omundy.github.io/PaletteVisualizer/
 
 Owen Mundy owenmundy.com
 
