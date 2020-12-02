@@ -43,31 +43,36 @@
 				</div>
 				<div class="col-4">
 
-					Enter hexidecimal colors only. <a href="#" title="Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)" class="tip"
-					 onClick="alert('Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)')">[?]</a> <br>
-
-					<label for="colorSort">Sort colors by:</label>
-					<select name="colorSort" id="colorSort" class="form-control form-control-sm">
-						<option value="none">---</option>
-						<option value="h_asc">
-							< hue</option>
-						<option value="h_desc">> hue</option>
-						<option value="s_asc">
-							< saturation</option>
-						<option value="s_desc">> saturation</option>
-						<option value="v_asc">
-							< value</option>
-						<option value="v_desc">> value</option>
-					</select><br>
 
 
-					<label for="colorMode">Display palette colors as:</label>
-					<select name="colorMode" id="colorMode" class="form-control form-control-sm">
-						<option value="hex">HEX</option>
-						<option value="rgb">RGB</option>
-					</select><br>
+					<div class="form-group" class="my-2">
+						<label for="colorSort">Sort colors by:</label>
+						<select name="colorSort" id="colorSort" class="form-control form-control-sm">
+							<option value="none">---</option>
+							<option value="h_asc">↑ hue</option>
+							<option value="h_desc">↓ hue</option>
+							<option value="s_asc">↑ saturation</option>
+							<option value="s_desc">↓ saturation</option>
+							<option value="v_asc">↑ value</option>
+							<option value="v_desc">↓ value</option>
+							<option value="a_asc">↑ alphabetical</option>
+							<option value="a_desc">↓ alphabetical</option>
+						</select>
+					</div>
 
-					<input type="button" value="Display Palette" class="btn btn-dark" onClick="displayPalette()" />
+					<div class="form-group" class="my-2">
+						<label for="colorMode">Display palette colors as:</label>
+						<select name="colorMode" id="colorMode" class="form-control form-control-sm">
+							<option value="hex">HEX</option>
+							<option value="rgb">RGB</option>
+						</select>
+					</div>
+
+					<input type="button" value="Display" class="btn btn-dark" onClick="displayPalette()" />
+					<input type="button" value="Random" class="btn btn-light rainbow" onClick="insertRandomPalette()" />
+
+					<small>hexidecimal colors only <a href="#" title="Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)" class="tip"
+						 onClick="alert('Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)')">[?]</a> </small>
 
 				</div>
 			</div>
@@ -76,6 +81,7 @@
 			<div class="row my-3">
 				<div class="col">
 
+					<small id="paletteName"></small>
 					<div id="palette"></div>
 
 				</div>
@@ -104,7 +110,7 @@
 			<div class="row my-5">
 				<div class="col">
 
-					Copyright (c) 2012 Owen Mundy owenmundy.com
+					By <a href="https://owenmundy.com">Owen Mundy</a> 2012
 
 				</div>
 			</div>

@@ -1,8 +1,37 @@
 "use strict";
 
-let orgColorValues = ['fa7c00','f98c00','d08c00','be9646','a58b6a','818185','777777','fff0c1','768557','e2e900','1574e5','4c6b85','e1eaf2','974542','997749','fb9a00','fef59b','fef59b','5b9058','1574e5','4c6b85','e1eaf2','974542','eeeeee','fdce00','c5c5c5','ca9a5e','fef59b','fef59b','cccccc','dddddd','eeeeee','ffffff','5b9058','fff0c1','fa7c00','f98c00','d08c00','be9646','a58b6a'];
 
 
+let colorArrays = {
+	"packetSwitching2012": ['fa7c00', 'f98c00', 'd08c00', 'be9646', 'a58b6a', '818185', '777777', 'fff0c1', '768557', 'e2e900', '1574e5', '4c6b85', 'e1eaf2', '974542', '997749', 'fb9a00', 'fef59b', 'fef59b', '5b9058', '1574e5', '4c6b85', 'e1eaf2', '974542', 'eeeeee', 'fdce00', 'c5c5c5', 'ca9a5e', 'fef59b', 'fef59b', 'cccccc', 'dddddd', 'eeeeee', 'ffffff', '5b9058', 'fff0c1', 'fa7c00', 'f98c00', 'd08c00', 'be9646', 'a58b6a'],
+
+	"tallyMonsters": ["#006A94", "#078591", "#078591", "#0c9a47", "#0c9a47", "#242960", "#253785", "#5b11db", "#74037f", "#800245", "#86037e", "#86037e", "#86037e", "#86037e", "#96023b", "#a74762", "#d43422", "#ed2820", "#f74229", "#f74229", "#f74229", "#f74229", "#f8061a", "#f8061a", "#f99033", "#fd27b0", "#fd27b0", "#fd27b0", "#fd27b0", "#fd27b0", "#fd27b0"],
+
+	"adams": ["000000", "111111", "292929", "434343", "616161", "7f7f7f", "a1a1a1", "bdbdbd", "d9d9d9", "f0f0f0", "ffffff"],
+	"hokusai": ["7d9ba6", "c0b7a8", "ddd3c4", "10284a", "474b4e"],
+	"miyazaki": ["66748f", "766c91", "78566f", "523b59", "813a3c", "bc5e52", "ee8a78", "fac885", "eba15c", "9b5235"],
+	"anderson": ["3a1302", "611305", "8a2b0e", "c75f24", "c89f59", "a4956b", "86856a", "756f61", "596160", "627a84"],
+
+};
+
+
+function sortHasc(c) {
+	return c.sort(function(a, b) {
+		return a.hsv[0].h - b.hsv[0].h;
+	});
+}
+
+function sortSasc(c) {
+	return c.sort(function(a, b) {
+		return a.hsv[0].s - b.hsv[0].s;
+	});
+}
+
+function sortVasc(c) {
+	return c.sort(function(a, b) {
+		return a.hsv[0].v - b.hsv[0].v;
+	});
+}
 
 function displayPalette() {
 
@@ -41,53 +70,44 @@ function displayPalette() {
 			colorsOut[i] = c;
 		}
 
-		function sortHasc() {
-			return colorsOut.sort(function(a, b) {
-				return a.hsv[0].h - b.hsv[0].h
-			});
-		}
 
-		function sortSasc() {
-			return colorsOut.sort(function(a, b) {
-				return a.hsv[0].s - b.hsv[0].s
-			});
-		}
 
-		function sortVasc() {
-			return colorsOut.sort(function(a, b) {
-				return a.hsv[0].v - b.hsv[0].v
-			});
-		}
+		// show color object
+		console.log("before", getHexValues(colorsOut));
 
 		// comparison functions for sorting palette
 		if (colorSort == 'h_asc') {
-			sortSasc();
-			sortVasc();
-			sortHasc();
+			colorsOut = sortSasc(colorsOut);
+			colorsOut = sortVasc(colorsOut);
+			colorsOut = sortHasc(colorsOut);
 		} else if (colorSort == 'h_desc') {
-			colorsOut.reverse(sortSasc());
-			colorsOut.reverse(sortVasc());
-			colorsOut.reverse(sortHasc());
+			colorsOut = colorsOut.reverse(sortSasc(colorsOut));
+			colorsOut = colorsOut.reverse(sortVasc(colorsOut));
+			colorsOut = colorsOut.reverse(sortHasc(colorsOut));
 		} else if (colorSort == 's_asc') {
-			sortVasc();
-			sortHasc();
-			sortSasc();
+			colorsOut = sortVasc(colorsOut);
+			colorsOut = sortHasc(colorsOut);
+			colorsOut = sortSasc(colorsOut);
 		} else if (colorSort == 's_desc') {
-			colorsOut.reverse(sortVasc());
-			colorsOut.reverse(sortHasc());
-			colorsOut.reverse(sortSasc());
+			colorsOut = colorsOut.reverse(sortVasc(colorsOut));
+			colorsOut = colorsOut.reverse(sortHasc(colorsOut));
+			colorsOut = colorsOut.reverse(sortSasc(colorsOut));
 		} else if (colorSort == 'v_asc') {
-			sortHasc();
-			sortSasc();
-			sortVasc();
+			colorsOut = sortHasc(colorsOut);
+			colorsOut = sortSasc(colorsOut);
+			colorsOut = sortVasc(colorsOut);
 		} else if (colorSort == 'v_desc') {
-			colorsOut.reverse(sortHasc());
-			colorsOut.reverse(sortSasc());
-			colorsOut.reverse(sortVasc());
+			colorsOut = colorsOut.reverse(sortHasc(colorsOut));
+			colorsOut = colorsOut.reverse(sortSasc(colorsOut));
+			colorsOut = colorsOut.reverse(sortVasc(colorsOut));
+		} else if (colorSort == 'a_asc') {
+			colorsOut = colorsOut.sort();
+		} else if (colorSort == 'a_desc') {
+			colorsOut = colorsOut.reverse();
 		}
 
 		// show color object
-		//console.log(colorsOut);
+		console.log("after", getHexValues(colorsOut));
 
 		// write to html
 		for (let c in colorsOut) {
@@ -116,6 +136,35 @@ function displayPalette() {
 		document.getElementById('hsvColorValues').innerHTML = hsvColorStringList;
 	}
 }
+// return random key from obj
+var randomObjKey = function(obj) {
+	var keys = Object.keys(obj);
+	return keys[keys.length * Math.random() << 0];
+};
 
-$("#orgColorValues").html(orgColorValues.join(","));
-displayPalette();
+// return string of hex values only
+function getHexValues(obj) {
+	return obj.map(function(elem) {
+		return elem.hex;
+	}).join(", ");
+}
+
+// insert and display random palette
+function insertRandomPalette() {
+	let name = randomObjKey(colorArrays);
+	$("#orgColorValues").html(colorArrays[name].join(","));
+	$("#paletteName").html(capitalizeFirstLetter(name));
+	displayPalette();
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// on load
+insertRandomPalette();
+
+// on change
+$('#colorSort,#colorMode').on('change', function() {
+	displayPalette();
+});
