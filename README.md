@@ -1,15 +1,16 @@
 
-README for PaletteVisualizer
--------
+# PaletteVisualizer
 
-PaletteVisualizer by Owen Mundy owenmundy.com
+View, sort, and clean a list of hexidecimal colors as a palette.
 
 Live project
 https://owenmundy.com/work/PaletteVisualizer/
 
+Owen Mundy owenmundy.com
 
-Description
--------
 
-View, sort, and clean a list of hexidecimal colors as a palette.
 
+
+## To do
+
+Add alphabetical sorting (like spreadsheet)
