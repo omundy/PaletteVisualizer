@@ -8,6 +8,11 @@
 	"undef": true,
 	"unused": false,
 	"globals": {
-		"$": false
+		"$": false,
+		"hex2rgb": false,
+		"hexToR": false,
+		"hexToG": false,
+		"hexToB": false,
+		"rgb2hsv": false
 	}
 }

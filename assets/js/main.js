@@ -5,7 +5,7 @@
 let colorArrays = {
 	"packetSwitching2012": ['fa7c00', 'f98c00', 'd08c00', 'be9646', 'a58b6a', '818185', '777777', 'fff0c1', '768557', 'e2e900', '1574e5', '4c6b85', 'e1eaf2', '974542', '997749', 'fb9a00', 'fef59b', 'fef59b', '5b9058', '1574e5', '4c6b85', 'e1eaf2', '974542', 'eeeeee', 'fdce00', 'c5c5c5', 'ca9a5e', 'fef59b', 'fef59b', 'cccccc', 'dddddd', 'eeeeee', 'ffffff', '5b9058', 'fff0c1', 'fa7c00', 'f98c00', 'd08c00', 'be9646', 'a58b6a'],
 
-	"tallyMonsters": ["#006A94", "#078591", "#078591", "#0c9a47", "#0c9a47", "#242960", "#253785", "#5b11db", "#74037f", "#800245", "#86037e", "#86037e", "#86037e", "#86037e", "#96023b", "#a74762", "#d43422", "#ed2820", "#f74229", "#f74229", "#f74229", "#f74229", "#f8061a", "#f8061a", "#f99033", "#fd27b0", "#fd27b0", "#fd27b0", "#fd27b0", "#fd27b0", "#fd27b0"],
+	"tallyMonsters": ["#74037f", "#86037e", "#078591", "#fd27b0", "#86037e", "#86037e", "#f74229", "#f74229", "#86037e", "#fd27b0", "#fd27b0", "#5b11db", "#0c9a47", "#fd27b0", "#ed2820", "#fd27b0", "#f8061a", "#078591", "#a74762", "#f74229", "#f74229", "#006A94", "#f99033", "#800245", "#253785", "#242960", "#fd27b0", "#f8061a", "#d43422", "#0c9a47", "#96023b"],
 
 	"adams": ["000000", "111111", "292929", "434343", "616161", "7f7f7f", "a1a1a1", "bdbdbd", "d9d9d9", "f0f0f0", "ffffff"],
 	"hokusai": ["7d9ba6", "c0b7a8", "ddd3c4", "10284a", "474b4e"],
@@ -13,6 +13,25 @@ let colorArrays = {
 	"anderson": ["3a1302", "611305", "8a2b0e", "c75f24", "c89f59", "a4956b", "86856a", "756f61", "596160", "627a84"],
 
 };
+
+/**
+ *	Sort an array objects by property values (string)
+ */
+function alphaSort(arr, key) {
+	return arr.sort(function(a, b) {
+		// console.log(a[key]);
+		return a[key].localeCompare(b[key]);
+	});
+}
+/**
+ *	Sort an array objects by property values (number)
+ */
+function numberSort(arr, key) {
+	return arr.sort(function(a, b) {
+		// console.log(a[key], a[key] - b[key]);
+		return a[key] - b[key];
+	});
+}
 
 
 function sortHasc(c) {
@@ -33,107 +52,130 @@ function sortVasc(c) {
 	});
 }
 
+
 function displayPalette() {
-
-	let colorsOut = []; // all color objects
-	let colors = []; // colors returned from the user's string
-	let colorPaletteOut = '';
-	let hexColorStringList = '';
-	let rgbColorStringList = '';
-	let hsvColorStringList = '';
-
-	// get colors
-	let colorValues = document.forms.colorForm.orgColorValues.value;
-	let colorMode = document.forms.colorForm.colorMode.value;
-	let colorSort = document.forms.colorForm.colorSort.value;
-
-	// match all hexidecimal values
-	colors = colorValues.match(/[a-fA-F0-9]{6,6}/g);
-
-	// if there are colors
-	if (colors.length > 0) {
-
-		// store colors
-		for (let i = 0; i < colors.length; i++) {
-
-			// an object for each color
-			let c = {
-				hex: "#" + colors[i],
-				rgb: {
-					rgb: "rgb(" + hex2rgb(colors[i]) + ")",
-					r: hexToR(colors[i]),
-					g: hexToG(colors[i]),
-					b: hexToB(colors[i])
-				}
-			};
-			c.hsv = rgb2hsv(c.rgb.r, c.rgb.g, c.rgb.b);
-			colorsOut[i] = c;
-		}
+	try {
 
 
 
-		// show color object
-		console.log("before", getHexValues(colorsOut));
+		let colorsOut = [], // main array with all the color objects
+			colorPaletteHtmlOut = '', // html of color palette
+			hexColorStr = '', // str of just hex, rgb, hsv
+			rgbColorStr = '',
+			hsvColorStr = '';
 
-		// comparison functions for sorting palette
-		if (colorSort == 'h_asc') {
-			colorsOut = sortSasc(colorsOut);
-			colorsOut = sortVasc(colorsOut);
-			colorsOut = sortHasc(colorsOut);
-		} else if (colorSort == 'h_desc') {
-			colorsOut = colorsOut.reverse(sortSasc(colorsOut));
-			colorsOut = colorsOut.reverse(sortVasc(colorsOut));
-			colorsOut = colorsOut.reverse(sortHasc(colorsOut));
-		} else if (colorSort == 's_asc') {
-			colorsOut = sortVasc(colorsOut);
-			colorsOut = sortHasc(colorsOut);
-			colorsOut = sortSasc(colorsOut);
-		} else if (colorSort == 's_desc') {
-			colorsOut = colorsOut.reverse(sortVasc(colorsOut));
-			colorsOut = colorsOut.reverse(sortHasc(colorsOut));
-			colorsOut = colorsOut.reverse(sortSasc(colorsOut));
-		} else if (colorSort == 'v_asc') {
-			colorsOut = sortHasc(colorsOut);
-			colorsOut = sortSasc(colorsOut);
-			colorsOut = sortVasc(colorsOut);
-		} else if (colorSort == 'v_desc') {
-			colorsOut = colorsOut.reverse(sortHasc(colorsOut));
-			colorsOut = colorsOut.reverse(sortSasc(colorsOut));
-			colorsOut = colorsOut.reverse(sortVasc(colorsOut));
-		} else if (colorSort == 'a_asc') {
-			colorsOut = colorsOut.sort();
-		} else if (colorSort == 'a_desc') {
-			colorsOut = colorsOut.reverse();
-		}
+		// get params from form
+		let colorValues = $("#orgColorValues").val(),
+			colorMode = $("#colorMode").val(),
+			colorSort = $("#colorSort").val();
 
-		// show color object
-		console.log("after", getHexValues(colorsOut));
+		// array with all matching hexidecimal values from the string
+		let colors = colorValues.match(/[a-fA-F0-9]{6,6}/g);
 
-		// write to html
-		for (let c in colorsOut) {
-			let colorString;
+		// console.log("colorMode =", colorMode, ", colorSort =", colorSort, ", colors =", colors);
 
-			// user's preference for color display
-			if (colorMode == 'hex') {
-				colorString = colorsOut[c].hex;
-			} else if (colorMode == 'rgb') {
-				colorString = colorsOut[c].rgb.rgb;
+		// if there are colors
+		if (colors.length > 0) {
+
+			// store colors
+			for (let i = 0; i < colors.length; i++) {
+
+				// create an object for each color
+				let c = {
+					str: String(colors[i]),
+					hex: "#" + colors[i],
+					rgb: {
+						rgb: "rgb(" + hex2rgb(colors[i]) + ")",
+						r: hexToR(colors[i]),
+						g: hexToG(colors[i]),
+						b: hexToB(colors[i])
+					}
+				};
+				c.hsv = rgb2hsv(c.rgb.r, c.rgb.g, c.rgb.b);
+				colorsOut[i] = c;
 			}
 
-			// store palette
-			colorPaletteOut += "<div class='color'>" +
-				"<span class='swatch' style='background-color:" + colorString + "'></span>" +
-				"<span class='smalltext'>" + colorString + "</span></div>";
+			// console.log("colorsOut", colorsOut);
+			// console.log("before", getHexValues(colorsOut));
 
-			// store lists
-			hexColorStringList += colorsOut[c].hex + ',';
-			rgbColorStringList += colorsOut[c].rgb.rgb + ',';
-			hsvColorStringList += colorsOut[c].hsv[0].h + ',' + colorsOut[c].hsv[0].s + ',' + colorsOut[c].hsv[0].v + "\n";
+
+			// HUE
+			if (colorSort == 'h_asc') {
+				// sort saturation, value, then hue
+				colorsOut = sortSasc(colorsOut);
+				colorsOut = sortVasc(colorsOut);
+				colorsOut = sortHasc(colorsOut);
+			} else if (colorSort == 'h_desc') {
+				// sort saturation, value, then hue, reversing each
+				colorsOut = sortSasc(colorsOut).reverse();
+				colorsOut = sortVasc(colorsOut).reverse();
+				colorsOut = sortHasc(colorsOut).reverse();
+			}
+			// SATURATION
+			else if (colorSort == 's_asc') {
+				// sort value, hue, then saturation
+				colorsOut = sortVasc(colorsOut);
+				colorsOut = sortHasc(colorsOut);
+				colorsOut = sortSasc(colorsOut);
+			} else if (colorSort == 's_desc') {
+				// sort value, hue, then saturation, reversing each
+				colorsOut = sortVasc(colorsOut).reverse();
+				colorsOut = sortHasc(colorsOut).reverse();
+				colorsOut = sortSasc(colorsOut).reverse();
+			}
+			// VALUE
+			else if (colorSort == 'v_asc') {
+				// sort hue, saturation, then value
+				colorsOut = sortHasc(colorsOut);
+				colorsOut = sortSasc(colorsOut);
+				colorsOut = sortVasc(colorsOut);
+			} else if (colorSort == 'v_desc') {
+				// sort hue, saturation, then value, reversing each
+				colorsOut = sortHasc(colorsOut).reverse();
+				colorsOut = sortSasc(colorsOut).reverse();
+				colorsOut = sortVasc(colorsOut).reverse();
+			}
+			// ALPHA
+			else if (colorSort == 'a_asc') {
+				// alphabetical sort
+				colorsOut = alphaSort(colorsOut, "str");
+			} else if (colorSort == 'a_desc') {
+				// alphabetical sort, then reverse sort
+				colorsOut = alphaSort(colorsOut, "str").reverse();
+			}
+
+			// console.log("after", getHexValues(colorsOut));
+
+
+			// write to html
+			for (let c in colorsOut) {
+				let colorString;
+
+				// user's preference for color display
+				if (colorMode == 'hex') {
+					colorString = colorsOut[c].hex;
+				} else if (colorMode == 'rgb') {
+					colorString = colorsOut[c].rgb.rgb;
+				}
+
+				// store palette
+				colorPaletteHtmlOut += "<div class='color'>" +
+					"<span class='swatch' style='background-color:" + colorString + "'></span>" +
+					"<span class='smalltext'>" + colorString + "</span></div>";
+
+				// store lists
+				hexColorStr += colorsOut[c].hex + ',';
+				rgbColorStr += colorsOut[c].rgb.rgb + ',';
+				hsvColorStr += colorsOut[c].hsv[0].h + ',' + colorsOut[c].hsv[0].s + ',' + colorsOut[c].hsv[0].v + "\n";
+			}
+			$("#orgColorValues").val(getHexValues(colorsOut));
+			document.getElementById('palette').innerHTML = colorPaletteHtmlOut;
+			document.getElementById('hexColorValues').innerHTML = hexColorStr;
+			document.getElementById('rgbColorValues').innerHTML = rgbColorStr;
+			document.getElementById('hsvColorValues').innerHTML = hsvColorStr;
 		}
-		document.getElementById('palette').innerHTML = colorPaletteOut;
-		document.getElementById('hexColorValues').innerHTML = hexColorStringList;
-		document.getElementById('rgbColorValues').innerHTML = rgbColorStringList;
-		document.getElementById('hsvColorValues').innerHTML = hsvColorStringList;
+	} catch (err) {
+		console.error(err);
 	}
 }
 // return random key from obj
@@ -144,21 +186,25 @@ var randomObjKey = function(obj) {
 
 // return string of hex values only
 function getHexValues(obj) {
-	return obj.map(function(elem) {
-		return elem.hex;
+	return obj.map(function(index) {
+		return index.hex;
 	}).join(", ");
 }
 
 // insert and display random palette
 function insertRandomPalette() {
+	// get name of random color palette
 	let name = randomObjKey(colorArrays);
-	$("#orgColorValues").html(colorArrays[name].join(","));
+	$("#orgColorValues").val(colorArrays[name].join(","));
 	$("#paletteName").html(capitalizeFirstLetter(name));
+
+
+	getRandomSelectOption("#colorSort");
 	displayPalette();
 }
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 // on load
@@ -168,3 +214,13 @@ insertRandomPalette();
 $('#colorSort,#colorMode').on('change', function() {
 	displayPalette();
 });
+
+function getRandomSelectOption(id) {
+	// get options
+	let colorSortOptions = $(id + ' option');
+
+	let values = $.map(colorSortOptions, function(option) {
+		return option.value;
+	});
+	return values;
+}
