@@ -1,168 +1,132 @@
-<!DOCTYPE HTML>
-<html lang="en-US">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<title>PaletteVisualizer</title>
-<style type="text/css">
-body { font:0.85em/1.4em Arial, sans-serif; margin:20px; }
-h1 { font-size: 1.5em }
-.col { float:left; width:325px; margin:20px 10px 20px 0; overflow:auto; }
-.step { clear:both; }
-.text { padding:8px 0 0; } 
-a.tip { text-decoration:none; padding:1px; font-size:90% }
-.subcol { float:left; margin:0; width:70px; }
-.subcol input, .subcol select { margin:0 0 10px 0 }
-.colorValues { width:315px; height:100px; margin-top:0px; }
-.color { float:left; text-align:center; margin:0 8px 0 0; }
-.smalltext { font-size:11px; }
-.color .swatch { width:90px;height:40px; display:block; }
-select,input { display:inline; }
-#palette { clear:both; margin:20px 0; overflow:auto; }
-.section { clear:both; margin:20px 0; border-top:1px solid #ccc; padding:10px 0; overflow:auto; }
-</style>
-<script type="text/javascript" src="js/colorConversion.js"></script>
-<script type="text/javascript">
+	<!-- meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-function displayPalette(){
-	
-	var colorsOut = new Array(); // for all color objects
-	var colors = new Array();  // for colors returned from the user's string
-	var colorPaletteOut = '';
-	var hexColorStringList = '';
-	var rgbColorStringList = '';
-	var hsvColorStringList = '';
-	
-	// get colors
-	var colorValues = document.forms["colorForm"]["orgColorValues"].value;
-	var colorMode = document.forms["colorForm"]["colorMode"].value;
-	var colorSort = document.forms["colorForm"]["colorSort"].value;
-	
-	// match all hexidecimal values
-	var colors = colorValues.match(/[a-fA-F0-9]{6,6}/g);
-		
-	// if there are colors
-	if (colors.length > 0){
-		
-		// store colors
-		for(var i=0; i < colors.length; i++){
-			
-			// an object for each color 
-			var c = { 
-				hex : "#"+ colors[i],
-				rgb : { 
-					rgb : "rgb(" + hex2rgb(colors[i]) + ")",
-					r : hexToR(colors[i]), 
-					g : hexToG(colors[i]), 
-					b : hexToB(colors[i]) 
-				}
-			};
-			c.hsv = rgb2hsv( c.rgb.r, c.rgb.g, c.rgb.b );
-			colorsOut[i] = c;
-		}
-		
-		// comparison functions for sorting palette
-		if (colorSort == 'h_asc'){ colorsOut.sort(function(a,b){ return a.hsv[0].h - b.hsv[0].h }); }
-		else if (colorSort == 'h_desc'){ colorsOut.reverse(colorsOut.sort(function(a,b){ return a.hsv[0].h - b.hsv[0].h })); }
-		else if (colorSort == 's_asc'){ colorsOut.sort(function(a,b){ return a.hsv[0].s - b.hsv[0].s }); }
-		else if (colorSort == 's_desc'){ colorsOut.reverse(colorsOut.sort(function(a,b){ return a.hsv[0].s - b.hsv[0].s })); }
-		else if (colorSort == 'v_asc'){	colorsOut.sort(function(a,b){ return a.hsv[0].v - b.hsv[0].v }); }
-		else if (colorSort == 'v_desc'){ colorsOut.reverse(colorsOut.sort(function(a,b){ return a.hsv[0].v - b.hsv[0].v })); }
-		
-		// show color object
-		//console.log(colorsOut);
-		
-		// write to html
-		for(c in colorsOut){
-			
-			// user's preference for color display
-			if (colorMode == 'hex'){
-				var colorString = colorsOut[c]['hex'];
-			} else if (colorMode == 'rgb'){
-				var colorString = colorsOut[c]['rgb']['rgb'];
-			}
-			
-			// store palette
-			colorPaletteOut += "<div class='color'>"
-				+ "<span class='swatch' style='background-color:"+ colorString +"'></span>"
-				+ "<span class='smalltext'>"+ colorString +"</span></div>";
-			
-			// store lists
-			hexColorStringList += colorsOut[c]['hex'] + ',';		
-			rgbColorStringList += colorsOut[c]['rgb']['rgb'] + ',';
-			hsvColorStringList += colorsOut[c].hsv[0].h + ',' + colorsOut[c].hsv[0].s + ',' + colorsOut[c].hsv[0].v + "\n";
-		}
-		document.getElementById('palette').innerHTML = colorPaletteOut;
-		document.getElementById('hexColorValues').innerHTML = hexColorStringList;
-		document.getElementById('rgbColorValues').innerHTML = rgbColorStringList;
-		document.getElementById('hsvColorValues').innerHTML = hsvColorStringList;
-	}
-}
 
-</script>
-<body onLoad="showPalette()">
+	<title>PaletteVisualizer</title>
 
-<h1>PaletteVisualizer</h1>
-<p>View and sort a list of hexidecimal colors as a palette. View the code <a href="https://github.com/omundy/PaletteVisualizer">here</a>.</p>
+	<!-- CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/styles.css">
+
+
+</head>
+
+<body>
 
 
 
+	<div class="container my-3">
+		<div class="row">
+			<div class="col">
 
-<form name="colorForm">
-	
-	<div class="step">
-		<div class="col">
+				<h3>PaletteVisualizer</h3>
+				<p>View and sort a list of hexidecimal colors as a palette. <a href="https://github.com/omundy/PaletteVisualizer">Github</a></p>
 
-		<textarea id="orgColorValues" class="colorValues">'fa7c00','f98c00','d08c00','be9646','a58b6a','818185','777777','fff0c1','768557','e2e900','1574e5','4c6b85','e1eaf2','974542','997749','fb9a00','fef59b','fef59b','5b9058','1574e5','4c6b85','e1eaf2','974542','eeeeee','fdce00','c5c5c5','ca9a5e','fef59b','fef59b','cccccc','dddddd','eeeeee','ffffff','5b9058','fff0c1','fa7c00','f98c00','d08c00','be9646','a58b6a'</textarea>
-		
+			</div>
 		</div>
-		<div class="col" style="width:500px;">
-			
-			Enter hexidecimal colors only. <a href="#" title="Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)" class="tip" onClick="alert('Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)')">[?]</a> <br>
-			
-			Sort colors by: <select name="colorSort" id="colorSort">
-					<option value="none">---</option>
-					<option value="h_asc">< hue</option>
-					<option value="h_desc">> hue</option>
-					<option value="s_asc">< saturation</option>
-					<option value="s_desc">> saturation</option>
-					<option value="v_asc">< value</option>
-					<option value="v_desc">> value</option>
-			</select><br>
-	
-	
-			Display palette colors as: <select name="colorMode" id="colorMode">
-					<option value="hex">HEX</option>
-					<option value="rgb">RGB</option>
-			</select><br>
-				
-			<input type="button" value="Display Palette" onClick="displayPalette()" />
-			
-		</div>
+
+
+
+
+		<form name="colorForm">
+
+			<div class="row my-3">
+				<div class="col-8">
+
+					<textarea class="form-control" id="orgColorValues" rows="10"></textarea>
+
+				</div>
+				<div class="col-4">
+
+					Enter hexidecimal colors only. <a href="#" title="Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)" class="tip"
+					 onClick="alert('Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)')">[?]</a> <br>
+
+					<label for="colorSort">Sort colors by:</label>
+					<select name="colorSort" id="colorSort" class="form-control form-control-sm">
+						<option value="none">---</option>
+						<option value="h_asc">
+							< hue</option>
+						<option value="h_desc">> hue</option>
+						<option value="s_asc">
+							< saturation</option>
+						<option value="s_desc">> saturation</option>
+						<option value="v_asc">
+							< value</option>
+						<option value="v_desc">> value</option>
+					</select><br>
+
+
+					<label for="colorMode">Display palette colors as:</label>
+					<select name="colorMode" id="colorMode" class="form-control form-control-sm">
+						<option value="hex">HEX</option>
+						<option value="rgb">RGB</option>
+					</select><br>
+
+					<input type="button" value="Display Palette" class="btn btn-dark" onClick="displayPalette()" />
+
+				</div>
+			</div>
+
+
+			<div class="row my-3">
+				<div class="col">
+
+					<div id="palette"></div>
+
+				</div>
+			</div>
+
+
+
+			<div class="row my-3">
+				<div class="col-4">
+					<h5>Hexidecimal</h5>
+					<textarea id="hexColorValues" class="form-control" rows="10"></textarea>
+				</div>
+				<div class="col-4">
+					<h5>RGB</h5>
+					<textarea id="rgbColorValues" class="form-control" rows="10"></textarea>
+				</div>
+				<div class="col-4">
+					<h5>HSV</h5>
+					<textarea id="hsvColorValues" class="form-control" rows="10"></textarea>
+				</div>
+			</div>
+
+
+
+
+			<div class="row my-5">
+				<div class="col">
+
+					Copyright (c) 2012 Owen Mundy owenmundy.com
+
+				</div>
+			</div>
+
 	</div>
-	
-
-</form>
-
-<div class="section">
-	<div id="palette"></div>
-</div>
 
 
-<div class="section">
-	
-	<div class="col">Hexidecimal values<br>
-	<textarea id="hexColorValues" class="colorValues" style="height:300px;"></textarea></div>
-	
-	<div class="col">RGB values<br>
-	<textarea id="rgbColorValues" class="colorValues" style="height:300px;"></textarea></div>
-	
-	<div class="col">HSV values<br>
-	<textarea id="hsvColorValues" class="colorValues" style="height:300px;"></textarea></div>
-
-</div>
+	</form>
 
 
-<div class="section">Copyright (c) 2012 Owen Mundy owenmundy.com</div>
+
+	<!-- javascripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+
+	<script src="assets/js/colorConversion.js"></script>
+	<script src="assets/js/main.js"></script>
+
+
 
 </body>
+
 </html>

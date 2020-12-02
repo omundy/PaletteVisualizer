@@ -1,0 +1,51 @@
+
+
+
+.text {
+	padding: 8px 0 0;
+}
+
+a.tip {
+	text-decoration: none;
+	padding: 1px;
+	font-size: 90%
+}
+
+.subcol {
+	float: left;
+	margin: 0;
+	width: 70px;
+}
+
+.subcol input,
+.subcol select {
+	margin: 0 0 10px 0
+}
+
+
+.color {
+	float: left;
+	text-align: center;
+	margin: 0 8px 0 0;
+}
+
+.smalltext {
+	font-size: 11px;
+}
+
+.color .swatch {
+	width: 90px;
+	height: 40px;
+	display: block;
+}
+
+select,
+input {
+	display: inline;
+}
+
+#palette {
+	clear: both;
+	margin: 20px 0;
+	overflow: auto;
+}
