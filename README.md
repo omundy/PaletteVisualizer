@@ -4,6 +4,9 @@ README for PaletteVisualizer
 
 PaletteVisualizer by Owen Mundy owenmundy.com
 
+Live project
+https://owenmundy.com/work/PaletteVisualizer/
+
 
 Description
 -------
