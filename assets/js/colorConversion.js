@@ -78,7 +78,7 @@ function rgb2hsv(r, g, b) {
 		hsv = {
 			h: 0,
 			s: 0,
-			v: computedV
+			v: roundToHundredth(computedV)
 		};
 		return [hsv];
 	}
@@ -88,12 +88,16 @@ function rgb2hsv(r, g, b) {
 	let h = (r == minRGB) ? 3 : ((b == minRGB) ? 1 : 5);
 
 	hsv = {
-		h: 60 * (h - d / (maxRGB - minRGB)),
-		s: (maxRGB - minRGB) / maxRGB,
-		v: maxRGB
+		h: roundToHundredth(60 * (h - d / (maxRGB - minRGB))),
+		s: roundToHundredth((maxRGB - minRGB) / maxRGB),
+		v: roundToHundredth(maxRGB)
 	};
 	return [hsv];
 }
+
+const roundToHundredth = (value) => {
+  return Number(value.toFixed(2));
+};
 
 function hsvToH(h) {
 	h.split(',');
