@@ -9,8 +9,4 @@ https://omundy.github.io/PaletteVisualizer/
 Owen Mundy [owenmundy.com](https://owenmundy.com)
 
 
-
-
-## To do
-
-Add alphabetical sorting (like spreadsheet)
+![screenshot-2025.png](screenshot-2025.png)
