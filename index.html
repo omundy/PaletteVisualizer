@@ -1,19 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-	<!-- meta tags -->
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>PaletteVisualizer</title>
-
-	<!-- CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" href="assets/css/styles.css">
-
-
 </head>
 
 <body>
@@ -32,20 +24,26 @@
 
 
 
+		<div class="row my-3">
+			<div class="col paletteButtonsParent">
+				<h5>Samples</h5>
+				<input type="button" value="Random" class="btn btn-light rainbow paletteButton" onClick="updatePalette()" />
+
+			</div>
+		</div>
+
 
 		<form name="colorForm">
 
 			<div class="row my-3">
-				<div class="col-8">
+				<div class="col-12 col-md-8">
 
 					<textarea class="form-control" id="orgColorValues" rows="8"></textarea>
 
 				</div>
-				<div class="col-4">
+				<div class="col-12 col-md-4">
 
-
-
-					<div class="form-group" class="my-2">
+					<div class="form-group my-2">
 						<label for="colorSort">Sort colors by:</label>
 						<select name="colorSort" id="colorSort" class="form-control form-control-sm">
 							<option value="none">---</option>
@@ -60,7 +58,7 @@
 						</select>
 					</div>
 
-					<div class="form-group" class="my-2">
+					<div class="form-group my-2">
 						<label for="colorMode">Display palette colors as:</label>
 						<select name="colorMode" id="colorMode" class="form-control form-control-sm">
 							<option value="hex">HEX</option>
@@ -68,26 +66,32 @@
 						</select>
 					</div>
 
-					<input type="button" value="Display" class="btn btn-dark" onClick="displayPalette()" />
-					<input type="button" value="Random" class="btn btn-light rainbow paletteButton" onClick="updatePalette()" />
+					<input type="button" value="Display" class="btn btn-dark my-2" onClick="displayPalette()" />
 
 					<small>hexidecimal colors only <a href="#" title="Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)" class="tip" onClick="alert('Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)')">[?]</a> </small>
 
 				</div>
 			</div>
 
-			<div class="row my-3">
-				<div class="col paletteButtonsParent"></div>
-			</div>
+
 			<div class="row my-3">
 				<div class="col">
 
-					<small id="paletteName"></small>
+					<h6 id="paletteName"></h6>
 					<div id="palette"></div>
 
 				</div>
 			</div>
 
+
+			<div class="row my-3">
+				<div class="col ">
+
+					<h6>Gradient</h6>
+					<div class="paletteGradient"></div>
+
+				</div>
+			</div>
 
 
 			<div class="row my-3">
@@ -106,8 +110,6 @@
 			</div>
 
 
-
-
 			<div class="row my-5">
 				<div class="col">
 
@@ -121,20 +123,12 @@
 
 	</form>
 
-
-
-	<!-- javascripts -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 	<script src="assets/js/functions.js"></script>
 	<script src="assets/js/colorConversion.js"></script>
 	<script src="assets/js/palettes.js"></script>
 	<script src="assets/js/main.js"></script>
-
-
 
 </body>
 

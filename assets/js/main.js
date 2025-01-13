@@ -1,5 +1,11 @@
 "use strict";
 
+let orgColorValuesEle = document.querySelector("#orgColorValues");
+let colorModeEle = document.querySelector("#colorMode");
+let colorSortEle = document.querySelector("#colorSort");
+let paletteNameEle = document.querySelector("#paletteName");
+let paletteGradientEle = document.querySelector(".paletteGradient");
+
 function convertPalette(colorValues, colorSort) {
 	let colorsOut = []; // main array with all the color objects
 	try {
@@ -86,16 +92,19 @@ function displayPalette() {
 		let colorPaletteHtmlOut = "", // html of color palette
 			hexColorStr = "", // str of just hex, rgb, hsv
 			rgbColorStr = "",
-			hsvColorStr = "";
+			hsvColorStr = "",
+			paletteGradient = "linear-gradient(to right, ";
 
 		// get params from form
-		let colorValues = $("#orgColorValues").val(),
-			colorMode = $("#colorMode").val(),
-			colorSort = $("#colorSort").val();
+		let colorValues = orgColorValuesEle.value,
+			colorMode = colorModeEle.value,
+			colorSort = colorSortEle.value;
 
 		// console.log("colorMode =", colorMode, ", colorSort =", colorSort, ", colors =", colors);
 
 		let colorsOut = convertPalette(colorValues, colorSort);
+
+		let i = 0;
 
 		// write to html
 		for (let c in colorsOut) {
@@ -114,9 +123,9 @@ function displayPalette() {
 				"<span class='swatch' style='background-color:" +
 				colorString +
 				"'></span>" +
-				"<span class='smalltext'>" +
+				"<small>" +
 				colorString +
-				"</span></div>";
+				"</small></div>";
 
 			// store lists
 			hexColorStr += colorsOut[c].hex + ",";
@@ -128,17 +137,27 @@ function displayPalette() {
 				"," +
 				colorsOut[c].hsv[0].v +
 				"\n";
+
+			if (i > 0) paletteGradient += ", ";
+			paletteGradient += colorsOut[c].hex;
+
+			i++;
 		}
-		$("#orgColorValues").val(getHexValues(colorsOut));
+		orgColorValuesEle.value = getHexValues(colorsOut);
 		document.getElementById("palette").innerHTML = colorPaletteHtmlOut;
 		document.getElementById("hexColorValues").innerHTML = hexColorStr;
 		document.getElementById("rgbColorValues").innerHTML = rgbColorStr;
 		document.getElementById("hsvColorValues").innerHTML = hsvColorStr;
+
+		paletteGradientEle.style.background = paletteGradient + ")";
+
 		// }
 	} catch (err) {
 		console.error(err);
 	}
 }
+colorModeEle.addEventListener("change", displayPalette);
+colorSortEle.addEventListener("change", displayPalette);
 
 // return string of hex values only
 function getHexValues(obj) {
@@ -151,14 +170,17 @@ function getHexValues(obj) {
 
 // insert and display random palette
 function updatePalette(name) {
-	if (!name)
-		// get name of random color palette
-		name = randomObjKey(colorArrays);
-	$("#orgColorValues").val(colorArrays[name].join(","));
-	$("#paletteName").html(capitalizeFirstLetter(name));
+	// get name of random color palette
+	if (!name) name = randomObjKey(colorArrays);
 
-	getRandomSelectOption("#colorSort");
+	orgColorValuesEle.value = colorArrays[name].join(",");
+	paletteNameEle.innerHTML = convertSlugToTitle(name);
+
 	displayPalette();
+}
+
+function convertSlugToTitle(slug) {
+	return capitalizeFirstLetter(slug.replaceAll("-", " "));
 }
 
 function addPaletteButtons() {
@@ -169,7 +191,7 @@ function addPaletteButtons() {
 			// console.log(key, colorArrays[key]);
 
 			let palette = "background: linear-gradient(to right, ";
-			let max = Math.min(3, colorArrays[key].length);
+			let max = Math.min(4, colorArrays[key].length);
 			// get darkest
 
 			let tempArr = colorArrays[key];
@@ -180,10 +202,12 @@ function addPaletteButtons() {
 			// palette += "#f69d3c, #3f87a6";
 			palette += ") !important;";
 
-			str += `<button class="btn btn-light paletteButton" data-palette="${key}" style="${palette}">${key}</button>`;
+			str += `<button class="btn btn-light paletteButton" data-palette="${key}" style="${palette}">${convertSlugToTitle(
+				key
+			)}</button>`;
 		}
 	}
-	paletteButtonsParent.innerHTML = str;
+	paletteButtonsParent.insertAdjacentHTML("beforeend", str);
 
 	const paletteButtons = document.querySelectorAll(".paletteButton");
 	paletteButtons.forEach((item, i) => {
@@ -199,17 +223,3 @@ addPaletteButtons();
 // on load
 updatePalette();
 
-// on change
-$("#colorSort,#colorMode").on("change", function () {
-	displayPalette();
-});
-
-function getRandomSelectOption(id) {
-	// get options
-	let colorSortOptions = $(id + " option");
-
-	let values = $.map(colorSortOptions, function (option) {
-		return option.value;
-	});
-	return values;
-}

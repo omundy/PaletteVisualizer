@@ -7,24 +7,20 @@
 .rainbow {
 	background: #fff;
 	/* fallback for old browsers */
-	background: -webkit-linear-gradient(to left, #fcb045, #fd1d1d, #833ab4);
-	/* Chrome 10-25, Safari 5.1-6 */
 	background: linear-gradient(to left, #fcb045, #fd1d1d, #833ab4);
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	color: white;
 }
 
-
-.paletteButton:hover, 
-.paletteButton:active , 
+.paletteButton:hover,
+.paletteButton:active,
 .paletteButton:focus {
 	color: white !important;
 }
 
-
-
-.text {
-	padding: 8px 0 0;
+.paletteGradient {
+	width: 100%;
+	height: 50px;
+	background: red;
 }
 
 a.tip {
@@ -33,26 +29,11 @@ a.tip {
 	font-size: 90%
 }
 
-.subcol {
-	float: left;
-	margin: 0;
-	width: 70px;
-}
-
-.subcol input,
-.subcol select {
-	margin: 0 0 10px 0
-}
-
 
 .color {
 	float: left;
 	text-align: center;
 	margin: 0 8px 0 0;
-}
-
-.smalltext {
-	font-size: 11px;
 }
 
 .color .swatch {
@@ -64,10 +45,4 @@ a.tip {
 select,
 input {
 	display: inline;
-}
-
-#palette {
-	clear: both;
-	margin: 20px 0;
-	overflow: auto;
 }

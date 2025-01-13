@@ -1,6 +1,5 @@
-
 let colorArrays = {
-	"packet-switching": [
+	"Packet-Switching": [
 		"fa7c00",
 		"f98c00",
 		"d08c00",
@@ -43,7 +42,7 @@ let colorArrays = {
 		"a58b6a",
 	],
 
-	"tally-monsters": [
+	"Tally-Monsters": [
 		"0078C2",
 		"00A7E5",
 		"078591",
@@ -77,9 +76,9 @@ let colorArrays = {
 		"fd27b0",
 	],
 
-	hokusai: ["7d9ba6", "c0b7a8", "ddd3c4", "10284a", "474b4e"],
+	Hokusai: ["7d9ba6", "c0b7a8", "ddd3c4", "10284a", "474b4e"],
 
-	miyazaki: [
+	Miyazaki: [
 		"66748f",
 		"766c91",
 		"78566f",
@@ -93,7 +92,7 @@ let colorArrays = {
 	],
 
 	// Wes Anderson
-	anderson: [
+	Anderson: [
 		"3a1302",
 		"611305",
 		"8a2b0e",
@@ -106,8 +105,26 @@ let colorArrays = {
 		"627a84",
 	],
 
+	"Animal-Motion": [
+		"E13E3E",
+		"BF6A40",
+		"BF9540",
+		"BFBF40",
+		"80BF40",
+		"40BF40",
+		"40BF95",
+		"40BFBF",
+		"4095BF",
+		"406ABF",
+		"4040BF",
+		"6A40BF",
+		"9540BF",
+		"BF40BF",
+		"BF406A",
+	],
+
 	// Chasing the Sun - 0, 2am, 4am, += 2 hours ...
-	"chasing-the-sun": [
+	"Chasing-the-Sun": [
 		"020559",
 		"070259",
 		"2f0089",
@@ -139,17 +156,18 @@ let colorArrays = {
 
 // console.log(
 // 	[
-// 		normalizedRgbaToHex(0.007843136, 0.020574106, 0.34901962, 0.1),
-// 		normalizedRgbaToHex(0.028681047, 0.007843136, 0.34901962, 0.1),
-// 		normalizedRgbaToHex(0.18495002, 0, 0.5377358, 0.2),
-// 		normalizedRgbaToHex(0.47031394, 0.011764727, 0.7372549, 0.3),
-// 		normalizedRgbaToHex(1, 0.6871587, 0.36320752, 0.6),
-// 		normalizedRgbaToHex(0.7783019, 0.79484093, 1, 1),
-// 		normalizedRgbaToHex(0.7764706, 0.79607844, 1, 1),
-// 		normalizedRgbaToHex(0.7764706, 0.79607844, 1, 1),
-// 		normalizedRgbaToHex(1, 0.8419812, 0.6839622, 0.8),
-// 		normalizedRgbaToHex(0.990566, 0.6010704, 0.2943663, 0.7),
-// 		normalizedRgbaToHex(0.5372549, 0.011764697, 0.43120453, 0.3),
-// 		normalizedRgbaToHex(0.15523644, 0.011764697, 0.5372549, 0.1),
+// 		// https://github.com/sneakaway-studio/CTS-Viz/blob/main/Assets/Scriptables/TimeProps/TPs_Light2D_Background_Gradient_12.asset
+// 		normalizedRgbaToHex(0.007843136, 0.020574106, 0.34901962, 0.1), // 00
+// 		normalizedRgbaToHex(0.028681047, 0.007843136, 0.34901962, 0.1), // 02
+// 		normalizedRgbaToHex(0.18495002, 0, 0.5377358, 0.2), // 04
+// 		normalizedRgbaToHex(0.47031394, 0.011764727, 0.7372549, 0.3), // 06
+// 		normalizedRgbaToHex(1, 0.6871587, 0.36320752, 0.6), // 08
+// 		normalizedRgbaToHex(0.7783019, 0.79484093, 1, 1), // 10
+// 		normalizedRgbaToHex(0.7764706, 0.79607844, 1, 1), // 12
+// 		normalizedRgbaToHex(0.7764706, 0.79607844, 1, 1), // 14
+// 		normalizedRgbaToHex(1, 0.8419812, 0.6839622, 0.8), // 16
+// 		normalizedRgbaToHex(0.990566, 0.6010704, 0.2943663, 0.7), // 18
+// 		normalizedRgbaToHex(0.5372549, 0.011764697, 0.43120453, 0.3), // 20
+// 		normalizedRgbaToHex(0.15523644, 0.011764697, 0.5372549, 0.1), // 22
 // 	].join("','")
 // );
