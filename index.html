@@ -69,15 +69,16 @@
 					</div>
 
 					<input type="button" value="Display" class="btn btn-dark" onClick="displayPalette()" />
-					<input type="button" value="Random" class="btn btn-light rainbow" onClick="insertRandomPalette()" />
+					<input type="button" value="Random" class="btn btn-light rainbow paletteButton" onClick="updatePalette()" />
 
-					<small>hexidecimal colors only <a href="#" title="Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)" class="tip"
-						 onClick="alert('Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)')">[?]</a> </small>
+					<small>hexidecimal colors only <a href="#" title="Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)" class="tip" onClick="alert('Hexidecimal colors must contain six (6) characters; rgb colors must be in the form rgb(0-255,0-255,0-255)')">[?]</a> </small>
 
 				</div>
 			</div>
 
-
+			<div class="row my-3">
+				<div class="col paletteButtonsParent"></div>
+			</div>
 			<div class="row my-3">
 				<div class="col">
 
@@ -128,7 +129,9 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 
+	<script src="assets/js/functions.js"></script>
 	<script src="assets/js/colorConversion.js"></script>
+	<script src="assets/js/palettes.js"></script>
 	<script src="assets/js/main.js"></script>
 
 

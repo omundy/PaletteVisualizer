@@ -23,6 +23,10 @@ function hexToB(h) {
 	return parseInt(cutHex(h).substring(4, 6), 16);
 }
 
+function hexToA(h) {
+	return parseInt(cutHex(h).substring(6, 8), 16) || 1;
+}
+
 function cutHex(h) {
 	return h.charAt(0) == "#" ? h.substring(1, 7) : h;
 }
@@ -31,7 +35,38 @@ function hex2rgb(hex) {
 	let r = hexToR(hex);
 	let g = hexToG(hex);
 	let b = hexToB(hex);
-	return r + "," + g + "," + b;
+	let a = hexToA(hex);
+	return r + "," + g + "," + b + "," + a;
+}
+
+// good for Unity / C# conversions
+// (1,0,0) => #ff0000
+function normalizedRgbaToHex(r, g, b, a = 1) {
+	// Ensure values are within the range 0-1
+	r = Math.max(0, Math.min(1, r));
+	g = Math.max(0, Math.min(1, g));
+	b = Math.max(0, Math.min(1, b));
+	a = Math.max(0, Math.min(1, a));
+
+	// Convert to 0-255 range
+	r = Math.round(r * 255);
+	g = Math.round(g * 255);
+	b = Math.round(b * 255);
+	a = Math.round(a * 255);
+
+	// Convert to hex and pad with 0 if necessary
+	const componentToHex = (c) => {
+		const hex = c.toString(16);
+		return hex.length === 1 ? "0" + hex : hex;
+	};
+
+	return (
+		"#" +
+		componentToHex(r) +
+		componentToHex(g) +
+		componentToHex(b) +
+		componentToHex(a)
+	);
 }
 
 function rgbToHex(R, G, B) {
