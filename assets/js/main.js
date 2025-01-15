@@ -143,6 +143,10 @@ function displayPalette() {
 
 			i++;
 		}
+
+		// add the first color to the gradient so it can tile
+		paletteGradient += ","+colorsOut[0].hex;
+
 		orgColorValuesEle.value = getHexValues(colorsOut);
 		document.getElementById("palette").innerHTML = colorPaletteHtmlOut;
 		document.getElementById("hexColorValues").innerHTML = hexColorStr;
